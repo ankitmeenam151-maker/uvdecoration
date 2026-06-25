@@ -42,8 +42,8 @@ export async function GET(request) {
           );
           doc.phone = "+91 62661 74324";
         }
-        // Auto-migrate founder image if it is empty or unset
-        if (key === "founder" && (!doc.image || doc.image === "")) {
+        // Auto-migrate founder image if it is empty, unset, or set to the broken ibb.co viewer link
+        if (key === "founder" && (!doc.image || doc.image === "" || doc.image.includes("ibb.co"))) {
           await db.collection("website").updateOne(
             { _id: "founder" },
             { $set: { image: "/images/founder.jpg" } }
